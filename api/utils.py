@@ -10,6 +10,6 @@ def print_response(response: requests.Response):
     # response
     print("Response body: {}".format(response.text))
 
-def create_auth_data(grant_type: str, client_id: str, client_secret: str):
+def create_auth_data(grant_type: str, client_id: str, client_secret: str) -> dict:
 
     return {"grant_type": grant_type, "client_id": client_id, "client_secret": client_secret}
