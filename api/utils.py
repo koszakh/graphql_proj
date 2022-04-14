@@ -22,17 +22,13 @@ def create_auth_data(grant_type: str, client_id: str, client_secret: str) -> dic
 def get_access_token(send_auth_post) -> str:
     body_dict = json.loads(send_auth_post.text)
     access_token = body_dict.get("access_token")
-    header = {"Authorization": "Bearer " + access_token}
-    return header
+    header_auth = {"Authorization": "Bearer " + access_token}
+    return header_auth
 
-# Adding fields to a query
-def add_gdt_fields(gdt_query: dict, fields: list) -> dict:
-    queryField = gdt_query.get("query")
-    dt_fields = get_str_fields(fields)
-    dt_fields_ind = queryField.index("}")
-    fullQueryField = f'{queryField[:dt_fields_ind]}{dt_fields}{queryField[dt_fields_ind:]}'
-    gdt_query["query"] = fullQueryField
-    return gdt_query
+# Creating headers for a request
+def create_headers(access_token) -> dict:
+    headers = {"Accept":"", "Content-type":"application/json","Authorization":access_token["Authorization"]}
+    return headers
 
 # Getting query fields as a string
 def get_str_fields(fields: list) -> str:
@@ -41,6 +37,11 @@ def get_str_fields(fields: list) -> str:
         str_fields += '\r\n ' + field
     str_fields += '\r\n '
     return str_fields
+
+# Creating a request body
+def create_request_body(query: str, variables: str) -> dict:
+    body = {"query":query, "variables":variables}
+    return body
 
 # Getting response dict data
 def get_response_dict(response: requests.Response) -> dict:
@@ -52,5 +53,14 @@ def get_device_types(response: requests.Response) -> dict:
     try:
         deviceTypes = resp_dict_data.get("data").get("deviceTypes")
     except AttributeError:
-        deviceTypes = {}
+        deviceTypes = None
     return deviceTypes
+
+# Getting attribute models data from response
+def get_attribute_models(response: requests.Response) -> dict:
+    resp_dict_data = get_response_dict(response)
+    try:
+        attributeModels = resp_dict_data.get("data").get("attributeModels")
+    except AttributeError:
+        attributeModels = None
+    return attributeModels

@@ -1,6 +1,6 @@
 import pytest
 import requests
-from api.utils import create_auth_data, print_response, get_access_token
+from api.utils import create_auth_data, print_response
 
 token_host_url = "https://keycloak.dev.iat.conmob.cloud/auth/realms/sso/protocol/openid-connect/token"
 grant_type = "client_credentials"
