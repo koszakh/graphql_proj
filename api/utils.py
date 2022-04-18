@@ -30,14 +30,6 @@ def create_headers(access_token) -> dict:
     headers = {"Accept":"", "Content-type":"application/json","Authorization":access_token["Authorization"]}
     return headers
 
-# Getting query fields as a string
-def get_str_fields(fields: list) -> str:
-    str_fields = ''
-    for field in fields:
-        str_fields += '\r\n ' + field
-    str_fields += '\r\n '
-    return str_fields
-
 # Creating a request body
 def create_request_body(query: str, variables: str) -> dict:
     body = {"query":query, "variables":variables}
